@@ -1,0 +1,15 @@
+version: "2"
+services:
+  app:
+    build: ./application
+    container_name: sti-app
+    ports:
+      - "80:80"
+    environment:
+      - PORT=80
+      - TOKEN_SECRET=X9Q5ZcQBp85RzvUxxwnlNAOZ2FD2Md2IwiENDl4GHP7S2GNKc6BPa7WBFLcYmGj6
+    volumes:
+      - ./application:/usr/src/app/application
+  db:
+    build: ./mysql
+    container_name: sti-mysql
