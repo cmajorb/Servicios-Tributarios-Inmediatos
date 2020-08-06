@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var mysqlx = require('@mysql/xdevapi');
+var crypto = require('crypto');
 
 var app = express();
 var server = http.Server(app);
@@ -17,10 +18,11 @@ app.use('/static', express.static(__dirname + '/static'));
 
 // Routing
 app.get('/', authenticateToken, (req, res) => {
-  res.json({ message: "access granted"});
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.post('/login', (req, res) => {
+  let username = req.body.username.replace(/[^a-zA-Z0-9 ]/g, "");
   mysqlx
     .getSession({
       user: 'root',
@@ -32,15 +34,20 @@ app.post('/login', (req, res) => {
         return session.getSchema('mysql');
     }).then(function () {
       return session
-        .sql("SELECT Password FROM mysql.Users WHERE UserName = '"+req.body.username+"';")
+        .sql("SELECT Hash,Salt FROM mysql.Users WHERE UserName = '"+username+"';")
         .execute()
     }).then(function (result) {
       var data = result.fetchAll();
-        if (data.length > 0 && req.body.password === data[0][0]) {
-          const token = generateAccessToken({ username: req.body.username });
-          res.json({token: token, result: 'valid'});
+        if (data.length > 0) {
+          var hash = crypto.pbkdf2Sync(req.body.password, data[0][1], 1000, 64, 'sha512').toString('hex');
+          if(hash === data[0][0]) {
+            const token = generateAccessToken({ username: req.body.username });
+            res.json({token: token, result: 'valid'});
+          } else {
+            res.send({result: 'invalid', message:'Contraseña incorrecto'});
+          }
         } else {
-          res.send({result: 'invalid'});
+          res.send({result: 'invalid', message: 'Nombre de Usuario incorrecto'});
         }
     });
 });
@@ -51,8 +58,10 @@ const rucRegexp = /^[0-9]{1,20}$/;
 console.log(rucRegexp.test(req.body.ruc));
 console.log(req.body.name.length);
   if (emailRegexp.test(req.body.email) && rucRegexp.test(req.body.ruc) && req.body.name.length > 0 && req.body.password.length > 6 && req.body.username.length > 0) {
-    query = ['UserName','Name','RUC','Email','Password','RegisterDate'];
-    data = [req.body.username,req.body.name,req.body.ruc,req.body.email,req.body.password,new Date().toISOString().slice(0, 19).replace('T', ' ')]
+    let salt = crypto.randomBytes(16).toString('hex');
+    let hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64, 'sha512').toString('hex');
+    query = ['UserName','Name','RUC','Email','Salt','Hash','RegisterDate'];
+    data = [req.body.username,req.body.name,req.body.ruc,req.body.email,salt,hash,new Date().toISOString().slice(0, 19).replace('T', ' ')]
 
     mysqlx
       .getSession({
@@ -69,7 +78,6 @@ console.log(req.body.name.length);
           .execute()
       }).then(function (result) {
         var dataResults = result.fetchAll();
-        console.log("data:" + dataResults + ":" + dataResults.length);
         if(dataResults.length==0) {
           mysqlx
             .getSession({
@@ -107,12 +115,10 @@ app.get('/register', function(request, response) {
 });
 
 function authenticateToken(req, res, next) {
-  console.log("authenticating");
   // Gather the jwt access token from the request header
   //const authHeader = req.headers['authorization']
   //const token = authHeader && authHeader.split(' ')[1]
   const token = req.cookies.token;
-  console.log("token: "+token);
   if (token == null) return res.redirect('/login'); // if there isn't any token
 
   jwt.verify(token, process.env.TOKEN_SECRET, function(err, decoded) {

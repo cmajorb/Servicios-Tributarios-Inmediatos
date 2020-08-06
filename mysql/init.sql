@@ -4,7 +4,8 @@ CREATE TABLE Users (
   Name varchar(200) DEFAULT NULL,
   RUC int(50) DEFAULT NULL,
   Email varchar(100) DEFAULT NULL,
-  Password varchar(50) DEFAULT NULL,
+  Hash varchar(200) DEFAULT NULL,
+  Salt varchar(200) DEFAULT NULL,
   RegisterDate datetime DEFAULT NULL,
   PRIMARY KEY (ID)
 );

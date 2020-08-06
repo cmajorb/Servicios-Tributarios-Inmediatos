@@ -23,6 +23,7 @@ function getUser(){
       window.location.replace("/");
     } else {
       let element = document.getElementById("warning");
+      element.innerHTML = json.message;
       element.classList.remove("collapse");
     }
 
