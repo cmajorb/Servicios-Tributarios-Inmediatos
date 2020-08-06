@@ -1,12 +1,16 @@
-let myForm = document.getElementById('loginForm');
+let myForm = document.getElementById('registerForm');
 
 myForm.onsubmit = async (e) => {
   e.preventDefault();
 }
-function getUser(){
+function registerUser(){
   const data = { username: document.getElementById("username").value,
-                  password: document.getElementById("password").value};
-    fetch('/login', {
+                  password: document.getElementById("password").value,
+                  name: document.getElementById("name").value,
+                  email: document.getElementById("email").value,
+                  ruc: document.getElementById("ruc").value,
+                };
+    fetch('/register', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
