@@ -36,12 +36,12 @@ app.post('/login', (req, res) => {
         .execute()
     }).then(function (result) {
       var data = result.fetchAll();
-      if (req.body.password === data[0][0]) {
-        const token = generateAccessToken({ username: req.body.username });
-        res.json({token: token, result: 'valid'});
-      } else {
-        res.send({result: 'invalid'});
-      }
+        if (data.length > 0 && req.body.password === data[0][0]) {
+          const token = generateAccessToken({ username: req.body.username });
+          res.json({token: token, result: 'valid'});
+        } else {
+          res.send({result: 'invalid'});
+        }
     });
 });
 
