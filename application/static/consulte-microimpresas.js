@@ -17,16 +17,19 @@ function searchRuc(){
     return response.json();
   })
   .then(function(json) {
+    document.getElementById("query").style.display = "none";
+    document.getElementById("results").style.display = "block";
+    document.getElementById("centerButton").style.display = "flex";
+
     if(json.result == "found") {
-      let element1 = document.getElementById("result1");
-      element1.innerHTML = json.message[0];
-      let element2 = document.getElementById("result2");
-      element2.innerHTML = json.message[1];
-      document.getElementById("query").style.display = "none";
-      document.getElementById("results").style.display = "block";
+      document.getElementById("result1").innerHTML = json.message[0];
+      document.getElementById("result2").innerHTML = json.message[1];
+      document.getElementById("info").style.display = "block";
 
     } else {
-      console.log("error");
+      document.getElementById("result1").innerHTML = data.ruc;
+      document.getElementById("warning").style.display = "block";
+
     }
 
   });

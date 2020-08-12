@@ -1,80 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Servicios Tributarios Inmediatos</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<link rel="stylesheet" href="/static/main.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Servicios Tributarios Inmediatos</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="/static/main.css">
 
 </head>
+
 <body>
   <h1>Régimen Microempresas</h1>
   <div id="navigation">
   </div>
   <div id="main">
-    <div id="results" style="display:none">
-    <h2>Microempresa</h2>
-    <table class="table">
-      <thead class="thead table">
-        <tr>
-          <th scope="col">RUC</th>
-          <th scope="col">Razón Social</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td id="result1">...</td>
-          <td id="result2">...</td>
-        </tr>
-      </tbody>
-    </table>
-  <div class="alert alert-secondary" role="alert">Listado de obligaciones tributarias que el SRI le ha asignado.</div>
 
-  <table class="table">
-    <thead class="thead table-primary">
-      <tr>
-        <th scope="col">OBLIGACIÓN</th>
-        <th scope="col">PERIOCIDICIDAD</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>DECLARACIÓN DE IVA</td>
-        <td>Mensual (opcional) <br/>Semestral (opcional)</td>
-      </tr>
-      <tr>
-        <td>DECLARACIÓN IMPUESTO A LA RENTA</td>
-        <td>Semestral</td>
-      </tr>
-    </tbody>
-  </table>
-  <div id="centerButton">
-  <button type="button" class="btn btn-secondary" onclick="location.reload()">Nueva consulta</button>
-</div>
-</div>
-<div id="query">
-  <div class="catastro">
-    <h4>Catastro del Régimen Impositivo para Microempresas</h4>
-  </div>
-  <div class="form" id="searchForm">
-      <form action="/consulte-microimpresas" method="post" id="searchForm">
+    <div id="results" style="display:none">
+
+      <h2>Microempresa</h2>
+      <table class="table">
+        <thead class="thead table">
+          <tr>
+            <th scope="col">RUC</th>
+            <th scope="col">Razón Social</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td id="result1"></td>
+            <td id="result2"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div id="warning" style="display:none">
+      <div class="alert alert-warning" role="alert">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
+          <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z" />
+        </svg>
+        LA BÚSQUEDA NO GENERÓ RESULTADOS
+      </div>
+    </div>
+    <div id="info" style="display:none">
+      <div class="alert alert-secondary" role="alert">Listado de obligaciones tributarias que el SRI le ha asignado.</div>
+
+      <table class="table">
+        <thead class="thead table-primary">
+          <tr>
+            <th scope="col">OBLIGACIÓN</th>
+            <th scope="col">PERIODICIDAD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DECLARACIÓN DE IVA</td>
+            <td>Mensual (opcional) <br />Semestral (opcional)</td>
+          </tr>
+          <tr>
+            <td>DECLARACIÓN IMPUESTO A LA RENTA</td>
+            <td>Semestral</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="centerButton" style="display:none">
+      <button type="button" class="btn btn-secondary" onclick="location.reload()">Nueva consulta</button>
+    </div>
+    <div id="query">
+      <div class="catastro">
+        <h4>Catastro del Régimen Impositivo para Microempresas</h4>
+      </div>
+      <div class="form" id="searchForm">
+        <form action="/consulte-microimpresas" method="post" id="searchForm">
           <h2 class="text-center">RUC</h2>
           <div class="form-group">
-              <input type="text" class="form-control"  required="required" name="ruc" id="ruc">
+            <input type="text" class="form-control" required="required" name="ruc" id="ruc">
           </div>
           <div class="form-group">
-              <button onclick="searchRuc()" class="btn btn-primary btn-block">Consultar</button>
+            <button onclick="searchRuc()" class="btn btn-primary btn-block">Consultar</button>
           </div>
-      </form>
-  </div>
-</div>
+        </form>
+      </div>
+    </div>
 
-</div>
+  </div>
 </body>
 <script src="/static/main.js"></script>
 <script src="/static/consulte-microimpresas.js"></script>
