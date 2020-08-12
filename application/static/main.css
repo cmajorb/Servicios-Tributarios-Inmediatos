@@ -1,0 +1,103 @@
+.form {
+    width: 340px;
+    margin: 50px auto;
+  	font-size: 15px;
+}
+.form form {
+    margin-bottom: 15px;
+    background: #f7f7f7;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    padding: 30px;
+}
+.form h2 {
+    margin: 0 0 15px;
+}
+.form-control, .btn {
+    min-height: 38px;
+    border-radius: 2px;
+}
+.btn {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+h1 {
+  text-align:center;
+  color:#E79550;
+  text-shadow: 2px 2px 4px #000;
+  position:absolute;
+  top:15px;
+  width:100%;
+ z-index: 1;
+}
+
+.catastro {
+  border: 3px solid #4599DC;
+  text-align:center;
+  color:#4599DC;
+  margin: 0 30%;
+  margin-top:30px;
+  padding:10px;
+}
+#myButton {
+  margin-top:50px;
+}
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+#sidebar {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 100vh;
+
+}
+#container {
+  margin-top:100px;
+  margin-left:40px;
+}
+.dropdown-menu {
+  width: 250;
+  padding:10px;
+}
+.dropdown-item {
+  padding-top:20px;
+  padding-bottom:20px;
+  border: 2px solid black;
+  border-radius: 15px;
+  margin-bottom:5px;
+}
+#navigation {
+  width:100%;
+  height:100px;
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#dropdownMenuButton {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  z-index: 2;
+  background-color:#EEE;
+  border-radius: 10px;
+}
+.table {
+width:500px;
+margin:auto;
+margin-top:40px;
+margin-bottom:40px;
+}
+#main {
+  margin: 0 20%;
+}
+#centerButton {
+  margin-top:20px;
+  display: flex;
+  justify-content: center;
+}
+h2 {
+  margin:10px;
+  color:#385D8A;
+}

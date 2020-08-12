@@ -20,3 +20,31 @@
     font-size: 15px;
     font-weight: bold;
 }
+body {
+  background-image: url("images/background.png");
+  background-repeat: no-repeat;
+   background-size: cover;
+}
+h1 {
+  text-align:center;
+  color:#E79550;
+  text-shadow: 2px 2px 4px #000;
+}
+#myButton {
+  margin-top:50px;
+}
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+#sidebar {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 100vh;
+
+}
+#container {
+  margin-top:100px;
+  margin-left:40px;
+}

@@ -18,9 +18,39 @@ app.use('/static', express.static(__dirname + '/static'));
 
 // Routing
 app.get('/', authenticateToken, (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'static/index.html'));
 });
 
+
+app.get('/consulte-microimpresas', (req, res) => {
+  res.sendFile(path.join(__dirname, 'static/consulte-microimpresas.html'));
+
+});
+app.post('/consulte-microimpresas', (req, res) => {
+  let ruc = req.body.ruc.replace(/[^0-9 ]/g, "");
+  mysqlx
+    .getSession({
+      user: 'root',
+      password: 'root',
+      host: 'db',
+      port: '33060'
+    }).then(function (s) {
+        session = s;
+        return session.getSchema('mysql');
+    }).then(function () {
+      return session
+        .sql("SELECT * FROM mysql.Catastro WHERE RUC = "+ruc+" LIMIT 1;")
+        .execute()
+    }).then(function (result) {
+      var data = result.fetchAll();
+      if(data[0]) {
+        res.send({result: 'found', message:data[0]});
+      } else {
+        res.send({result: 'invalid'});
+      }
+
+    });
+});
 app.post('/login', (req, res) => {
   let username = req.body.username.replace(/[^a-zA-Z0-9 ]/g, "");
   mysqlx
